@@ -1,0 +1,11 @@
+[build]
+builder = "NIXPACKS"
+
+[build.buildCommand]
+command = "npm install && npm run build && npm run prisma:generate && npm run prisma:migrate"
+
+[build.startCommand]
+command = "npm run start"
+
+[env]
+PORT = "3001"
