@@ -2,18 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY prisma ./prisma/
-COPY prisma.config.ts ./
+COPY . .
 
-RUN npm ci --ignore-scripts
+RUN npm install
 
 RUN npx prisma generate
 
-COPY . .
-
 RUN npx nest build
 
-EXPOSE 3000
+RUN ls -la dist/
 
 CMD ["node", "dist/main"]
