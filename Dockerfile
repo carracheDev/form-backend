@@ -10,6 +10,4 @@ RUN npx prisma generate
 
 RUN npx nest build
 
-RUN ls -la dist/
-
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]
