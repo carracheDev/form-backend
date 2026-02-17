@@ -28,6 +28,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Permet les cookies (pour JWT dans cookies)
   });
+  //https://formulaire-backend.up.railway.app
 
   // Préfixe global pour toutes les routes (optionnel)
   app.setGlobalPrefix('api'); // Toutes les routes commencent par /api
