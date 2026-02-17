@@ -20,10 +20,13 @@ async function bootstrap() {
     }),
   );
 
-  // CORS configuré
+  // CORS configuré - Autorise le frontend Vercel et localhost
   const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
   app.enableCors({
-    origin: corsOrigin,
+    origin: [
+      'https://form-frontend-git-main-sodjinoucarrache457.vercel.app',
+      'http://localhost:3000',
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Permet les cookies (pour JWT dans cookies)
