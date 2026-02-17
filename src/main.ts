@@ -14,33 +14,41 @@ async function bootstrap() {
   // Validation globale avec transformation automatique
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Supprime les champs non définis dans le DTO
-      forbidNonWhitelisted: true, // Rejette les requêtes avec champs inconnus
-      transform: true, // Transforme automatiquement les types
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
-  // CORS configuré - Autorise le frontend Vercel et localhost
-  const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+  // CORS configuré - Accepte tous les domaines Vercel
   app.enableCors({
-    origin: [
-      'https://form-frontend-git-main-sodjinoucarrache457.vercel.app',
-      'http://localhost:3000',
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
+
+      // Accepte tous les domaines Vercel (.vercel.app)
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app')
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Permet les cookies (pour JWT dans cookies)
+    credentials: true,
   });
-  //https://formulaire-backend.up.railway.app
 
-  // Préfixe global pour toutes les routes (optionnel)
-  app.setGlobalPrefix('api'); // Toutes les routes commencent par /api
+  // Préfixe global pour toutes les routes
+  app.setGlobalPrefix('api');
 
   const port = process.env.PORT || 3001;
   await app.listen(port);
 
   logger.log(`🚀 Application is running on: http://localhost:${port}`);
-  logger.log(`🌍 CORS enabled for: ${corsOrigin}`);
+  logger.log(`🌍 CORS enabled for all Vercel domains`);
   logger.log(`📝 API Documentation: http://localhost:${port}/api`);
 }
 
