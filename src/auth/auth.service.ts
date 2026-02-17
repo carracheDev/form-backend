@@ -31,7 +31,7 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     const verifyToken = crypto.randomBytes(32).toString('hex');
-    const user = this.usersService.create(
+    const user = await this.usersService.create(
       registerDto.email,
       registerDto.name,
       hashedPassword,
